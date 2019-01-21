@@ -1,1 +1,1 @@
-{"lines": {"blank": 2, "comment": 4, "docstring": 18, "code": 5}, "pep8": {"count": 0, "categories": []}, "doc": {"classes": {}, "functions": {}, "modules": {}}}
+{"lines": {"blank": 42, "comment": 7, "docstring": 68, "code": 98}, "pep8": {"count": 1, "categories": [["1", "W391", "blank line at end of file"]]}, "doc": {"classes": {}, "functions": {}, "modules": {}}}

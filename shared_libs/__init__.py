@@ -26,4 +26,9 @@ except ImportError:
     __version__ = None
     __githash__ = None
 
-# Initialise the package below
+import os
+
+__all__ = ["LIBDIR"]
+
+# Initialise the package globals
+LIBDIR = os.path.join(os.path.dirname(__file__), "lib")

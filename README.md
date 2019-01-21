@@ -4,7 +4,7 @@
     One should edit the docs/README.md file instead.
 -->
 
-[![Coding style](https://img.shields.io/badge/pep8-100%25-brightgreen.svg)](https://github.com/grand-mother/shared-libs/blob/master/docs/.stats.json)
+[![Coding style](https://img.shields.io/badge/pep8-98%25-brightgreen.svg)](https://github.com/grand-mother/shared-libs/blob/master/docs/.stats.json)
 [![Code coverage](https://codecov.io/gh/grand-mother/shared-libs/branch/master/graph/badge.svg)](https://codecov.io/gh/grand-mother/shared-libs)
 [![Build status](https://travis-ci.com/grand-mother/shared-libs.svg?branch=master)](https://travis-ci.com/grand-mother/shared-libs)
 [![PyPi version](https://img.shields.io/pypi/v/g.svg)](https://pypi.org/project/grand-shared-libs)
