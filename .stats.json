@@ -1,1 +1,1 @@
-{"lines": {"blank": 42, "comment": 7, "docstring": 68, "code": 98}, "pep8": {"count": 1, "categories": [["1", "W391", "blank line at end of file"]]}, "doc": {"classes": {}, "functions": {}, "modules": {}}}
+{"lines": {"blank": 75, "comment": 11, "docstring": 131, "code": 178}, "pep8": {"count": 4, "categories": [["2", "E128", "continuation line under-indented for visual indent"], ["1", "W293", "blank line contains whitespace"], ["1", "W391", "blank line at end of file"]]}, "doc": {"classes": {}, "functions": {}, "modules": {}}}

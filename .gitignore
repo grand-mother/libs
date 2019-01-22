@@ -13,5 +13,6 @@ build
 # Ignore temporary coverage reports
 .coverage
 
-# Ignore local librairies
+# Ignore local librairies and data
 shared_libs/lib
+shared_libs/data
