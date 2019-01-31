@@ -29,33 +29,41 @@ class GullTest(unittest.TestCase):
 
 
     def test_load(self):
-        self.assertEqual(gull.RETURN_SUCCESS, 0)
+        self.assertNotEqual(gull._lib, None)
 
 
     def test_snapshot(self):
-        snapshot = ctypes.c_void_p(None)
-        path = ctypes.c_char_p(os.path.join(DATADIR, "gull",
-            "IGRF12.COF").encode("ascii"))
-        line = ctypes.c_int(0)
-        r = gull.snapshot_create(ctypes.byref(snapshot), path, 1, 1, 2019,
-            ctypes.byref(line))
-        self.assertEqual(r, 0)
-        self.assertNotEqual(snapshot.value, None)
+        snapshot = gull.Snapshot()
+        self.assertNotEqual(snapshot._snapshot, None)
+        self.assertEqual(snapshot.model, "IGRF12")
+        d = snapshot.date
+        self.assertEqual(d.year, 2019)
+        self.assertEqual(d.month, 1)
+        self.assertEqual(d.day, 1)
+        self.assertEqual(snapshot.order, 13)
+        self.assertEqual(snapshot.altitude[0], -1E+03)
+        self.assertEqual(snapshot.altitude[1], 600E+03)
+        del snapshot
 
-        gull.snapshot_destroy(ctypes.byref(snapshot))
-        self.assertEqual(snapshot.value, None)
+        snapshot = gull.Snapshot("WMM2015", "2018-06-04")
+        self.assertNotEqual(snapshot._snapshot, None)
+        self.assertEqual(snapshot.model, "WMM2015")
+        d = snapshot.date
+        self.assertEqual(d.year, 2018)
+        self.assertEqual(d.month, 6)
+        self.assertEqual(d.day, 4)
+
+        m = snapshot(45., 3.)
+        # Magnetic field according to
+        # http://geomag.nrcan.gc.ca/calc/mfcal-en.php
+        self.assertAlmostEqual(m[0], 0, 6)
+        self.assertAlmostEqual(m[1], 2.2983E-05, 6)
+        self.assertAlmostEqual(m[2], -4.0852E-05, 6)
 
 
     def test_snapshot_error(self):
-        snapshot = ctypes.c_void_p(None)
-        path = ctypes.c_char_p("unknown.COF".encode("ascii"))
-        line = ctypes.c_int(0)
-        try:
-            r = gull.snapshot_create(ctypes.byref(snapshot), path, 1, 1, 2019,
-                ctypes.byref(line))
-        except Exception as e:
-            self.assertEqual(str(e), gull.return_code[5])
-
+        with self.assertRaises(gull.LibraryError) as context:
+            snapshot = gull.Snapshot("Unknown")
 
 if __name__ == "__main__":
     unittest.main()

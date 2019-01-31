@@ -21,12 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 import contextlib
 import json
 import os
+import sys
 import tempfile
 from distutils.command.install import install
 from framework import git
 from . import LIBDIR
 
-__all__ = ["Temporary"]
+__all__ = ["Installer", "Meta", "Temporary"]
 
 
 @contextlib.contextmanager
@@ -93,3 +94,34 @@ def Installer(installs):
                 i()
 
     return InstallWithLibs
+
+
+def define(source, arguments=None, result=None, exception=None):
+    """Decorator for defining wrapped library functions"""
+
+    # Set the C prototype
+    if arguments:
+        source.argtypes = arguments
+    if result:
+        source.restype = result
+
+    def decorator(function):
+        # Return the (wrapped) function
+        if exception is not None:
+            def wrapped(*args):
+                """Wrapper for library functions with error check"""
+                r = source(*args)
+                if r != 0:
+                    raise exception(r)
+                else:
+                    return r
+
+            return wrapped
+        else:
+            def wrapped(*args):
+                """Wrapper for library functions without error check"""
+                source(*args)
+
+            return wrapped
+
+    return decorator
