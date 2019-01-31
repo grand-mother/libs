@@ -7,6 +7,7 @@
 [![Coding style](https://img.shields.io/badge/pep8-97%25-brightgreen.svg)](https://github.com/grand-mother/shared-libs/blob/master/docs/.stats.json)
 [![Code coverage](https://codecov.io/gh/grand-mother/shared-libs/branch/master/graph/badge.svg)](https://codecov.io/gh/grand-mother/shared-libs)
 [![Build status](https://travis-ci.com/grand-mother/shared-libs.svg?branch=master)](https://travis-ci.com/grand-mother/shared-libs)
+[![Documentation](https://img.shields.io/badge/docs-34%25-yellow.svg)](https://grand-mother.github.io/site/reports.html?shared-libs/docs)
 [![PyPi version](https://img.shields.io/pypi/v/g.svg)](https://pypi.org/project/grand-shared-libs)
 
 # Shared libs
@@ -18,17 +19,20 @@ _Manage shared libs for GRAND packages_
 
 
 ## Installation
+_GRAND packages require python3.7. If can be installed from the
+[tarball](https://www.python.org/downloads) on Linux or with brew on OSX._
+
 
 The latest stable version of this package can be installed from [PyPi][PYPI]
 using [pip][PIP], e.g. as:
 ```bash
-pip install --user grand-shared-libs
+pip3 install --user grand-shared-libs
 ```
 
 Alternatively one can also install the latest development commit directly from
 [GitHub][GITHUB], as:
 ```bash
-pip install --user git+https://github.com/grand-mother/shared-libs.git@master
+pip3 install --user git+https://github.com/grand-mother/shared-libs.git@master
 ```
 
 
