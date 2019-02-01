@@ -8,23 +8,18 @@ import unittest
 
 import numpy
 
-from shared_libs import *
-from shared_libs.turtle import *
-from shared_libs.turtle.install import *
-
-install()
-import shared_libs.turtle.binding as turtle
+from shared_libs import turtle
 
 
 class TurtleTest(unittest.TestCase):
     """Unit tests for the turtle module"""
 
     def test_init(self):
-        self.assertEqual(LIBNAME, "libturtle.so")
-        self.assertNotEqual(LIBHASH, None)
+        self.assertEqual(turtle.LIBNAME, "libturtle.so")
+        self.assertNotEqual(turtle.LIBHASH, None)
 
     def test_install(self):
-        self.assertTrue(os.path.exists(LIBPATH))
+        self.assertTrue(os.path.exists(turtle.LIBPATH))
 
 
     def test_load(self):

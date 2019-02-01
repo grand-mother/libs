@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Python binding for the TURTLE library
+Encapsulation of the TURTLE C library
 
 Copyright (C) 2018 The GRAND collaboration
 
@@ -19,15 +19,69 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 """
 
 import ctypes
+import glob
+import os
+import shutil
+import subprocess
 
 import numpy
 
-from . import LIBPATH
-from .. import DATADIR
-from ..tools import define
+from . import LIBDIR, SRCDIR
+from .tools import Meta, Temporary, define
 
 
-__all__ = ["LibraryError", "ecef_from_geodetic"]
+__all__ = ["LIBNAME", "LIBPATH", "LIBHASH", "LibraryError",
+           "ecef_from_geodetic", "ecef_from_horizontal", "ecef_to_geodetic",
+           "ecef_to_horizontal"]
+
+
+LIBNAME = "libturtle.so"
+"""The OS specific name of the TURTLE library object"""
+
+
+LIBPATH = os.path.join(LIBDIR, LIBNAME)
+"""The full path to the TURTLE library object"""
+
+
+LIBHASH = "0e7da42989bddd56426280ed6c02cd256d0bec9b"
+"""The git hash of the library"""
+
+
+def _install():
+    """Install the TURTLE library to the top package location"""
+
+    # Check for an existing install
+    meta = Meta("turtle")
+    if meta["LIBHASH"] == LIBHASH:
+        return
+
+    def system(command):
+        subprocess.run(command, check=True, shell=True)
+
+    # Install the library with its vectorization binding
+    with Temporary("https://github.com/niess/turtle", LIBHASH) as _:
+        # Extend the source with vectorization
+        for path in glob.glob(f"{SRCDIR}/turtle/*.c"):
+            target = f"src/turtle/{os.path.basename(path)}"
+            system(f"cat {target} {path} > tmp.c")
+            system(f"mv tmp.c {target}")
+
+        # Build the library
+        system("make")
+
+        # Copy back the library
+        if not os.path.exists(LIBDIR):
+            os.makedirs(LIBDIR)
+        src = os.path.join("lib", "libturtle.so")
+        shutil.copy(src, LIBPATH)
+
+    # Dump the meta data
+    meta["LIBHASH"] = LIBHASH
+    meta.update()
+
+
+# Install the library on import, if needed
+_install()
 
 
 class LibraryError(Exception):

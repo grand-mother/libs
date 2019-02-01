@@ -6,24 +6,19 @@ Unit tests for the shared_libs.gull module
 import os
 import unittest
 
-from shared_libs import *
-from shared_libs.gull import *
-from shared_libs.gull.install import *
-
-install()
-import shared_libs.gull.binding as gull
+from shared_libs import gull
 
 
 class GullTest(unittest.TestCase):
     """Unit tests for the gull sub-package"""
 
     def test_init(self):
-        self.assertEqual(LIBNAME, "libgull.so")
-        self.assertNotEqual(LIBHASH, None)
+        self.assertEqual(gull.LIBNAME, "libgull.so")
+        self.assertNotEqual(gull.LIBHASH, None)
 
 
     def test_install(self):
-        self.assertTrue(os.path.exists(LIBPATH))
+        self.assertTrue(os.path.exists(gull.LIBPATH))
 
 
     def test_load(self):

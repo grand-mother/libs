@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Python binding for the GULL library
+Encapsulation of the GULL C library
 
 Copyright (C) 2018 The GRAND collaboration
 
@@ -20,20 +20,79 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 import ctypes
 import datetime
+import os
+import shutil
+import subprocess
 
 import numpy
 
-from . import LIBPATH
-from .. import DATADIR
-from ..tools import define
+from . import DATADIR, LIBDIR, SRCDIR
+from .tools import Meta, Temporary, define
+
+__all__ = ["LIBNAME", "LIBPATH", "LIBHASH", "LibraryError", "Snapshot",
+           "strerror"]
 
 
-__all__ = ["LibraryError", "Snapshot", "strerror"]
+LIBNAME = "libgull.so"
+"""The OS specific name of the GULL library object"""
+
+
+LIBPATH = os.path.join(LIBDIR, LIBNAME)
+"""The full path to the GULL library object"""
+
+
+LIBHASH = "91ed20fc52c35a8ae9d32416dd7d0249100aad6f"
+"""The git hash of the library"""
+
+
+def _install():
+    """Install the GULL library to the top package location"""
+
+    # Check for an existing install
+    meta = Meta("gull")
+    if meta["LIBHASH"] == LIBHASH:
+        return
+
+    def system(command):
+        subprocess.run(command, check=True, shell=True)
+
+    # Install the library with its vectorization binding
+    with Temporary("https://github.com/niess/gull", LIBHASH) as _:
+        # Extend the source with vectorization
+        target = f"src/gull.c"
+        system(f"cat {target} {SRCDIR}/gull.c > tmp.c")
+        system(f"mv tmp.c {target}")
+
+        # Build the library
+        system("make")
+
+        # Copy back the library
+        if not os.path.exists(LIBDIR):
+            os.makedirs(LIBDIR)
+        src = os.path.join("lib", "libgull.so")
+        shutil.copy(src, LIBPATH)
+
+        # Copy the data files
+        dstdir = os.path.join(DATADIR, "gull")
+        if not os.path.exists(dstdir):
+            os.makedirs(dstdir)
+        for fname in ("IGRF12.COF", "WMM2015.COF"):
+            dst = os.path.join(dstdir, fname)
+            if not os.path.exists(dst):
+                shutil.copy(os.path.join("share", "data", fname), dst)
+
+    # Dump the meta data
+    meta["LIBHASH"] = LIBHASH
+    meta.update()
+
+
+# Install the library on import, if needed
+_install()
 
 
 def strerror(code):
     """Convert a GULL library return code to a string
-    
+
     Parameters
     ----------
     code : int
