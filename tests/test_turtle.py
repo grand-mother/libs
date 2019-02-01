@@ -5,10 +5,8 @@ Unit tests for the shared_libs.turtle module
 
 import os
 import unittest
-import sys
 
 import shared_libs.turtle
-from shared_libs import LIBDIR
 
 
 class TurtleTest(unittest.TestCase):

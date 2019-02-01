@@ -7,7 +7,7 @@
 [![Coding style](https://img.shields.io/badge/pep8-90%25-brightgreen.svg)](https://github.com/grand-mother/shared-libs/blob/master/docs/.stats.json)
 [![Code coverage](https://codecov.io/gh/grand-mother/shared-libs/branch/master/graph/badge.svg)](https://codecov.io/gh/grand-mother/shared-libs)
 [![Build status](https://travis-ci.com/grand-mother/shared-libs.svg?branch=master)](https://travis-ci.com/grand-mother/shared-libs)
-[![Documentation](https://img.shields.io/badge/docs-38%25-yellow.svg)](https://grand-mother.github.io/site/reports.html?shared-libs/docs)
+[![Documentation](https://img.shields.io/badge/docs-40%25-yellow.svg)](https://grand-mother.github.io/site/reports.html?shared-libs/docs)
 [![PyPi version](https://img.shields.io/pypi/v/g.svg)](https://pypi.org/project/grand-shared-libs)
 
 # Shared libs

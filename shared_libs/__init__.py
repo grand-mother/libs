@@ -32,5 +32,11 @@ __all__ = ["LIBDIR", "DATADIR"]
 
 
 # Initialise the package globals
-LIBDIR = os.path.join(os.path.dirname(__file__), "lib")
 DATADIR = os.path.join(os.path.dirname(__file__), "data")
+"""Path to the package data"""
+
+LIBDIR = os.path.join(os.path.dirname(__file__), "lib")
+"""Path to the package shared libraries"""
+
+SRCDIR = os.path.join(os.path.dirname(__file__), "src")
+"""Path to the source for C-extensions"""

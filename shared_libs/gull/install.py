@@ -23,7 +23,7 @@ import shutil
 import subprocess
 
 from . import LIBHASH, LIBPATH
-from .. import DATADIR, LIBDIR
+from .. import DATADIR, LIBDIR, SRCDIR
 from ..tools import Meta, Temporary
 
 __all__ = ["install"]
@@ -37,10 +37,18 @@ def install():
     if meta["LIBHASH"] == LIBHASH:
         return
 
-    # Install the library
+    def system(command):
+        subprocess.run(command, check=True, shell=True)
+
+    # Install the library with its vectorization binding
     with Temporary("https://github.com/niess/gull", LIBHASH) as _:
+        # Extend the source with vectorization
+        target = f"src/gull.c"
+        system(f"cat {target} {SRCDIR}/gull.c > tmp.c")
+        system(f"mv tmp.c {target}")
+
         # Build the library
-        s = subprocess.run("make", capture_output=True, check=True, shell=True)
+        system("make")
 
         # Copy back the library
         if not os.path.exists(LIBDIR):

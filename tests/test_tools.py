@@ -5,7 +5,6 @@ Unit tests for the shared_libs.tools module
 
 import os
 import unittest
-import sys
 
 import shared_libs.tools
 from shared_libs import LIBDIR

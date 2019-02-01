@@ -21,6 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 import ctypes
 import datetime
 
+import numpy
+
 from . import LIBPATH
 from .. import DATADIR
 from ..tools import define
@@ -86,10 +88,13 @@ def _snapshot_destroy(snapshot):
     """Destroy a snapshot object"""
     pass
 
+_CST_DBL_P = numpy.ctypeslib.ndpointer(float, flags="aligned, contiguous")
+_DBL_P = numpy.ctypeslib.ndpointer(float,
+    flags="aligned, contiguous, writeable")
 
-@define (_lib.gull_snapshot_field,
-         arguments = (ctypes.c_void_p, ctypes.c_double, ctypes.c_double,
-                      ctypes.c_double, 3 * ctypes.c_double,
+@define (_lib.gull_snapshot_field_v,
+         arguments = (ctypes.c_void_p, _CST_DBL_P, _CST_DBL_P, _CST_DBL_P,
+                      _DBL_P, numpy.ctypeslib.c_intp,
                       ctypes.POINTER(ctypes.c_void_p)),
          result = ctypes.c_int,
          exception = LibraryError)
@@ -168,14 +173,34 @@ class Snapshot:
         self._snapshot = None
 
 
-    def __call__(self, latitude, longitude, altitude=0):
+    def __call__(self, latitude, longitude, altitude=None):
         """Get the magnetic field at a given Earth location"""
-        field = (3 * ctypes.c_double)()
+        def regularize(a):
+            a = numpy.asanyarray(a)
+            return numpy.require(a, float, ["CONTIGUOUS", "ALIGNED"])
+
+        latitude, longitude = map(regularize, (latitude, longitude))
+        if latitude.size != longitude.size:
+            raise ValueError("latitude and longitude must have the same size")
+
+        if altitude is None:
+            altitude = numpy.zeros_like(latitude)
+        else:
+            altitude = regularize(altitude)
+            if latitude.size != altitude.size:
+                raise ValueError(
+                    "latitude and altitude must have the same size")
+
+        if latitude.size == 1:
+            field = numpy.zeros(3)
+        else:
+            field = numpy.zeros((latitude.size, 3))
+
         if _snapshot_field(self._snapshot, latitude, longitude, altitude,
-                           field, ctypes.byref(self._workspace)):
+                           field, latitude.size, ctypes.byref(self._workspace)):
             return
         else:
-            return [float(v) for v in field]
+            return field
 
 
     @property

@@ -19,11 +19,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 """
 
 import ctypes
+import glob
 import os
 import shutil
 import subprocess
 
-from . import LIBDIR
+from . import LIBDIR, SRCDIR
 from .tools import Meta, Temporary
 
 __all__ = ["LIBNAME", "LIBPATH", "LIBHASH", "install", "get"]
@@ -60,10 +61,19 @@ def install():
     if meta["LIBHASH"] == LIBHASH:
         return
 
-    # Install the library
+    def system(command):
+        subprocess.run(command, check=True, shell=True)
+
+    # Install the library with its vectorization binding
     with Temporary("https://github.com/niess/turtle", LIBHASH) as _:
+        # Extend the source with vectorization
+        for path in glob.glob(f"{SRCDIR}/turtle/*.c"):
+            target = f"src/turtle/{os.path.basename(path)}"
+            system(f"cat {target} {path} > tmp.c")
+            system(f"mv tmp.c {target}")
+
         # Build the library
-        s = subprocess.run("make", capture_output=True, check=True, shell=True)
+        system("make")
 
         # Copy back the library
         if not os.path.exists(LIBDIR):
