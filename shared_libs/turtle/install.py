@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Encapsulation of the TURTLE library
+Installer for the TURTLE library
 
 Copyright (C) 2018 The GRAND collaboration
 
@@ -18,43 +18,20 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 """
 
-import ctypes
 import glob
 import os
 import shutil
 import subprocess
 
-from . import LIBDIR, SRCDIR
-from .tools import Meta, Temporary
+from . import LIBHASH, LIBPATH
+from .. import LIBDIR, SRCDIR
+from ..tools import Meta, Temporary
 
-__all__ = ["LIBNAME", "LIBPATH", "LIBHASH", "install", "get"]
-
-
-"""The OS specific name of the TURTLE library object"""
-LIBNAME = "libturtle.so"
-
-"""The full path to the TURTLE library object"""
-LIBPATH = os.path.join(LIBDIR, "libturtle.so")
-
-"""The git hash of the library"""
-LIBHASH = "0e7da42989bddd56426280ed6c02cd256d0bec9b"
-
-
-_lib = None
-
-
-def get():
-    """Get the ctypes handle for the TURTLE library"""
-    global _lib
-
-    if _lib is None:
-        # Fetch the library handle
-        _lib = ctypes.cdll.LoadLibrary(LIBPATH)
-    return _lib
+__all__ = ["install"]
 
 
 def install():
-    """Install the TURTLE library to the GRAND software"""
+    """Install the TURTLE library to the top package location"""
 
     # Check for an existing install
     meta = Meta("turtle")

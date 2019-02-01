@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Encapsulation of the GULL C library
+Encapsulation of the TURTLE C library
 
 Copyright (C) 2018 The GRAND collaboration
 
@@ -24,11 +24,11 @@ from .. import LIBDIR
 __all__ = ["LIBNAME", "LIBPATH", "LIBHASH"]
 
 
-"""The OS specific name of the GULL library object"""
-LIBNAME = "libgull.so"
+"""The OS specific name of the TURTLE library object"""
+LIBNAME = "libturtle.so"
 
-"""The full path to the GULL library object"""
+"""The full path to the TURTLE library object"""
 LIBPATH = os.path.join(LIBDIR, LIBNAME)
 
 """The git hash of the library"""
-LIBHASH = "91ed20fc52c35a8ae9d32416dd7d0249100aad6f"
+LIBHASH = "0e7da42989bddd56426280ed6c02cd256d0bec9b"

@@ -98,7 +98,8 @@ _DBL_P = numpy.ctypeslib.ndpointer(float,
                       ctypes.POINTER(ctypes.c_void_p)),
          result = ctypes.c_int,
          exception = LibraryError)
-def _snapshot_field(snapshot, latitude, longitude, altitude, field):
+def _snapshot_field(snapshot, latitude, longitude, altitude, field, size,
+                    workspace):
     """Get a magnetic field value from a snapshot"""
     pass
 
