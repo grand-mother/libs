@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Unit tests for the shared_libs.turtle module
+Unit tests for the grand_libs.turtle module
 """
 
 import os
@@ -8,7 +8,7 @@ import unittest
 
 import numpy
 
-from shared_libs import turtle
+from grand_libs import turtle
 
 
 class TurtleTest(unittest.TestCase):

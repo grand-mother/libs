@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 """
-Unit tests for the shared_libs package
+Unit tests for the grand_libs package
 """

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Run all unit tests for the shared_libs package
+Run all unit tests for the grand_libs package
 """
 import os
 import unittest

@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-Unit tests for the shared_libs.version module
+Unit tests for the grand_libs.version module
 """
 
 import unittest
 import sys
 
-import shared_libs
-from framework import git
+import grand_libs
+from grand_pkg import git
 
 
 try:
-    import shared_libs.version
+    import grand_libs.version
 except:
     # Skip version tests for non release builds
     pass
@@ -21,10 +21,11 @@ else:
 
         def test_hash(self):
             githash = git("rev-parse", "HEAD")
-            self.assertEqual(githash.strip(), shared_libs.version.__git__["sha1"])
+            self.assertEqual(
+                githash.strip(), grand_libs.version.__git__["sha1"])
 
         def test_version(self):
-            self.assertIsNotNone(shared_libs.version.__version__)
+            self.assertIsNotNone(grand_libs.version.__version__)
 
 
 if __name__ == "__main__":

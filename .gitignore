@@ -14,5 +14,5 @@ build
 .coverage
 
 # Ignore local librairies and data
-shared_libs/lib
-shared_libs/data
+grand_libs/lib
+grand_libs/data

@@ -1,4 +1,4 @@
-# Shared libs
+# GRAND libs
 _Manage shared libs for GRAND packages_
 
 ## Description
@@ -14,13 +14,13 @@ _GRAND packages require python3.7. If can be installed from the
 The latest stable version of this package can be installed from [PyPi][PYPI]
 using [pip][PIP], e.g. as:
 ```bash
-pip3 install --user grand-shared-libs
+pip3 install --user grand-libs
 ```
 
 Alternatively one can also install the latest development commit directly from
 [GitHub][GITHUB], as:
 ```bash
-pip3 install --user git+https://github.com/grand-mother/shared-libs.git@master
+pip3 install --user git+https://github.com/grand-mother/libs.git@master
 ```
 
 
@@ -30,8 +30,8 @@ The GRAND software is distributed under the LGPL-3.0 license. See the provided
 [`LICENSE`][LICENSE] and [`COPYING.LESSER`][COPYING] files.
 
 
-[COPYING]: https://github.com/grand-mother/shared-libs/blob/master/COPYING.LESSER
-[GITHUB]: https://github.com/grand-mother/shared-libs
-[LICENSE]: https://github.com/grand-mother/shared-libs/blob/master/LICENSE
+[COPYING]: https://github.com/grand-mother/libs/blob/master/COPYING.LESSER
+[GITHUB]: https://github.com/grand-mother/libs
+[LICENSE]: https://github.com/grand-mother/libs/blob/master/LICENSE
 [PIP]: https://pypi.org/project/pip
-[PYPI]: https://pypi.org/project/grand-shared-libs
+[PYPI]: https://pypi.org/project/grand-libs

@@ -24,7 +24,7 @@ import os
 import sys
 import tempfile
 from distutils.command.install import install
-from framework import git
+from grand_pkg import git
 from . import LIBDIR
 
 __all__ = ["Installer", "Meta", "Temporary"]

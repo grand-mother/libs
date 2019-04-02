@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Unit tests for the shared_libs.gull module
+Unit tests for the grand_libs.gull module
 """
 
 import os
 import unittest
 
-from shared_libs import gull
+from grand_libs import gull
 
 
 class GullTest(unittest.TestCase):
