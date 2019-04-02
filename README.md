@@ -19,7 +19,7 @@ _Manage shared libs for GRAND packages_
 
 
 ## Installation
-_GRAND packages require python3.7. If can be installed from the
+_GRAND packages require python3.7. It can be installed from the
 [tarball](https://www.python.org/downloads) on Linux or with brew on OSX._
 
 
