@@ -32,12 +32,5 @@ class ToolsTest(unittest.TestCase):
         self.assertEqual(path, os.getcwd())
 
 
-    def test_installer(self):
-        def run():
-            return True
-
-        Install = grand_libs.tools.Installer([run])
-
-
 if __name__ == "__main__":
     unittest.main()

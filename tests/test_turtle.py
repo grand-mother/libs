@@ -86,5 +86,52 @@ class TurtleTest(unittest.TestCase):
             self.assertAlmostEqual(horizontal[1][i], ref["horizontal"][1], 0)
 
 
+    def test_stack(self):
+        # Check the empty stack initalisation
+        stack = turtle.Stack("")
+        self.assertNotEqual(stack._stack, None)
+        self.assertEqual(stack.path, "")
+        self.assertEqual(stack.stack_size, 0)
+
+        # Check the elevation getter for a single entry
+        elevation = stack.elevation(45.5, 3.5)
+        self.assertTrue(numpy.isnan(elevation))
+
+        # Check the elevation getter for vectorized entries
+        n = 10
+        elevation = stack.elevation(n * (45.5,), n * (3.5,))
+        for i in range(n):
+            self.assertTrue(numpy.isnan(elevation[i]))
+
+        # Check the manual deletion
+        del stack
+
+
+    def test_map(self):
+        # Check the map loading
+        path = os.path.join(os.path.dirname(__file__), "map.png")
+        map_ = turtle.Map(path)
+        self.assertNotEqual(map_._map, None)
+        self.assertEqual(map_.path, path)
+
+        # Check the elevation getter for a single entry
+        elevation = map_.elevation(0, 0)
+        self.assertTrue(1000)
+
+        # Check the elevation getter for vectorized entries
+        n = 10
+        elevation = map_.elevation(n * (0,), n * (0,))
+        for i in range(n):
+            self.assertTrue(1000)
+
+        # Check the manual deletion
+        del map_
+
+        # Check for invalid path case
+        with self.assertRaises(RuntimeError) as context:
+            map_ = turtle.Map("")
+        self.assertRegex(context.exception.args[0], "^A TURTLE library error")
+
+
 if __name__ == "__main__":
     unittest.main()

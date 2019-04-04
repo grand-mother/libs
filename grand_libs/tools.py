@@ -27,7 +27,7 @@ from distutils.command.install import install
 from grand_pkg import git
 from . import LIBDIR
 
-__all__ = ["Installer", "Meta", "Temporary"]
+__all__ = ["Meta", "Temporary", "define"]
 
 
 @contextlib.contextmanager
@@ -83,19 +83,6 @@ class Meta:
             json.dump(self._meta, f)
 
 
-def Installer(installs):
-    """Create an extended installer class"""
-
-    class InstallWithLibs(install):
-        # Extend the setuptools install command
-        def run(self):
-            super().run()
-            for i in installs:
-                i()
-
-    return InstallWithLibs
-
-
 def define(source, arguments=None, result=None, exception=None):
     """Decorator for defining wrapped library functions"""
 
@@ -120,7 +107,7 @@ def define(source, arguments=None, result=None, exception=None):
         else:
             def wrapped(*args):
                 """Wrapper for library functions without error check"""
-                source(*args)
+                return source(*args)
 
             return wrapped
 

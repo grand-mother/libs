@@ -109,7 +109,7 @@ def strerror(code):
     return r[code]
 
 
-class LibraryError(Exception):
+class LibraryError(RuntimeError):
     """A GULL library error"""
 
     def __init__(self, code):
@@ -193,6 +193,7 @@ class Snapshot:
         """
         self._snapshot, self._model, self._date = None, None, None
         self._workspace = ctypes.c_void_p(0)
+        self._order, self._altitude = None, None
 
         # Create the snapshot object
         snapshot = ctypes.c_void_p(None)
