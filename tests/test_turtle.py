@@ -8,6 +8,7 @@ import unittest
 
 import numpy
 
+import grand_store
 from grand_libs import turtle
 
 
@@ -87,24 +88,46 @@ class TurtleTest(unittest.TestCase):
 
 
     def test_stack(self):
+        # Fetch a test tile
+        dirname, basename = "tests/topography", "N38E083.SRTMGL1.hgt"
+        path = os.path.join(dirname, basename)
+        if not os.path.exists(path):
+            os.makedirs("tests/topography")
+            with open(path, "wb") as f:
+                f.write(grand_store.get(basename))
+
+        # Check the stack initalisation
+        stack = turtle.Stack(dirname)
+        self.assertNotEqual(stack._stack, None)
+        self.assertEqual(stack.path, dirname)
+        self.assertEqual(stack.stack_size, 0)
+
+        # Check the elevation getter for a single entry
+        elevation = stack.elevation(38.5, 83.5)
+        self.assertFalse(numpy.isnan(elevation))
+
+        # Check the elevation getter for out of map entries
+        elevation = stack.elevation(45.5, 3.5)
+        self.assertTrue(numpy.isnan(elevation))
+
+        # Check the elevation getter for vectorized entries
+        n = 10
+        elevation = stack.elevation(n * (38.5,), n * (83.5,))
+        for i in range(n):
+            self.assertFalse(numpy.isnan(elevation[i]))
+
+        # Check the manual deletion
+        del stack
+
         # Check the empty stack initalisation
         stack = turtle.Stack("")
         self.assertNotEqual(stack._stack, None)
         self.assertEqual(stack.path, "")
         self.assertEqual(stack.stack_size, 0)
 
-        # Check the elevation getter for a single entry
+        # Check the elevation getter for empty entries
         elevation = stack.elevation(45.5, 3.5)
         self.assertTrue(numpy.isnan(elevation))
-
-        # Check the elevation getter for vectorized entries
-        n = 10
-        elevation = stack.elevation(n * (45.5,), n * (3.5,))
-        for i in range(n):
-            self.assertTrue(numpy.isnan(elevation[i]))
-
-        # Check the manual deletion
-        del stack
 
 
     def test_map(self):
