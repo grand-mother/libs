@@ -92,7 +92,10 @@ class TurtleTest(unittest.TestCase):
         dirname, basename = "tests/topography", "N38E083.SRTMGL1.hgt"
         path = os.path.join(dirname, basename)
         if not os.path.exists(path):
-            os.makedirs("tests/topography")
+            try:
+                os.makedirs(dirname)
+            except OSError:
+                pass
             with open(path, "wb") as f:
                 f.write(grand_store.get(basename))
 
